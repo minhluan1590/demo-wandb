@@ -8,13 +8,11 @@ import pandas as pd
 import wandb
 from sklearn.model_selection import train_test_split
 
-
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
 
 def go(args):
-
     run = wandb.init(project="demo-06", job_type="split_data")
 
     logger.info("Downloading and reading artifact")
@@ -31,14 +29,13 @@ def go(args):
     # COMPLETE the following line     #
     ###################################
 
-    splits["train"], splits["test"] = # USE train_test_split here to split df according to the provided args.test_size
+    # USE train_test_split here to split df according to the provided args.test_size
+    splits["train"], splits["test"] = train_test_split(df, test_size=args.test_size, random_state=args.random_state, stratify=df[args.stratify])
 
     # Now we save the artifacts. We use a temporary directory so we do not leave
     # any trace behind
     with tempfile.TemporaryDirectory() as tmp_dir:
-
         for split, df in splits.items():
-
             # Make the artifact name from the provided root plus the name of the split
             artifact_name = f"{args.artifact_root}_{split}.csv"
 
