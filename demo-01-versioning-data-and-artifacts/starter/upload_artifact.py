@@ -4,31 +4,33 @@ import logging
 import pathlib
 import wandb
 
-
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
 
 def go(args):
-
     logger.info("Creating run demo-01")
 
     # Create a W&B run in the project ``demo-01``. Set the option ``job_type="upload_file"``:
-
-    # YOUR CODE HERE
+    run = wandb.init(project="demo-01", job_type="upload_file")
 
     # Create an instance of the class ``wandb.Artifact``. Use the ``artifact_name`` parameter to fill
     # the keyword ``name`` when constructing the wandb.Artifact class.
     # Use the parameters ``artifact_type`` and ``artifact_desc`` to fill respectively the keyword
     # ``type`` and ``description``
     # HINT: you can use args.artifact_name to reference the parameter artifact_name
-
-    # YOUR CODE HERE
+    logger.info("Creating artifact")
+    artifact = wandb.Artifact(
+        name=args.artifact_name,
+        type=args.artifact_type,
+        description=args.artifact_description,
+    )
 
     # Attach the file provided as the parameter ``input_file`` to the artifact instance using
     # ``artifact.add_file``, and log the artifact to the run using ``run.log_artifact``.
-
-    # YOUR CODE HERE
+    logger.info("Logging artifact")
+    artifact.add_file(args.input_file)
+    run.log_artifact(artifact)
 
 
 if __name__ == "__main__":
